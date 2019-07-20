@@ -11,23 +11,26 @@ class Pool(object):
         the length of a pool
     width : int
         the width of a pool
-    pollution : floan
+    pollution : float
         a float number in range [0, 1] which represents the percent of the pool that is polluted
-    obstecles : floan
-        a float number in range [0, 0.5] which represents the percent of obstecles in the pool
+    obstacles : float
+        a float number in range [0, 0.5] which represents the percent of obstacles in the pool
     """
 
     # TODO
-    # try different amount of obstecles
+    # try different amount of obstacles
     # try different amount of pollution
 
-    def __init__(self, length=5, width=7, pollution=0.5, obstacles=0.0):
+    def __init__(self, length=5, width=7, pollution=0.3, obstacles=0.05):
         self.length = length
         self.width = width
         self.pollution = pollution
-        self.obstecles = obstacles
+        self.obstacles = obstacles
         self.grid = np.zeros((self.length, self.width))
-        self.render_elems = {-1: 'X', -0.5: 'x', 0: ' ', 1: 'R'}
+        self.render_elems = {-1: 'X', -0.5: 'x', 0: ' ', 1: 'R'}  # obstacle, pollution, clean square of pool, robot
+
+        self.generate_pollution()
+        self.generate_obstacles()
 
     def render(self):
         x = '-'
@@ -52,10 +55,16 @@ class Pool(object):
         print(z * spaces, x * (self.width * 4 + 1), '\n')
 
     def generate_pollution(self):
-        pass
+        for i in range(self.length):
+            for j in range(self.width):
+                if np.random.rand() < self.pollution:
+                    self.grid[i][j] = -0.5
 
     def generate_obstacles(self):
-        pass
+        for i in range(self.length):
+            for j in range(self.width):
+                if np.random.rand() < self.obstacles:
+                    self.grid[i][j] = -1
 
     def is_clean(self):
         pass
