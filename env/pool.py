@@ -21,13 +21,13 @@ class Pool(object):
     # try different amount of obstacles
     # try different amount of pollution
 
-    def __init__(self, length=5, width=7, pollution=0.3, obstacles=0.05):
+    def __init__(self, length=5, width=7, pollution=0.3, obstacles=0.1):
         self.length = length
         self.width = width
         self.pollution = pollution
         self.obstacles = obstacles
         self.grid = np.zeros((self.length, self.width))
-        self.render_elems = {-1: 'X', -0.5: 'x', 0: ' ', 1: 'R'}  # obstacle, pollution, clean square of pool, robot
+        self.render_elems = {-1: 'Z', -0.5: 'x', 0: ' ', 1: 'R'}  # obstacle, pollution, clean square of pool, robot
 
         self.generate_pollution()
         self.generate_obstacles()
