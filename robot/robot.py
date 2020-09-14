@@ -7,20 +7,19 @@ class Robot(object):
     ----------
     battery_capacity : int
         the capacity of robot's battery, an integer number in range [m, n]
-    view : int
-        the range of view of a robot
-    home_distance : int
-        the distance to a charging station (home)
+    sight : int
+        the sight of a robot (how far it sees)
 	"""
 
 	# TODO
 	# decide on battery_capacity range
 	# try different values of battery_capacity 
 
-	def __init__(self, battery_capacity, view, home_distance):
+	def __init__(self, battery_capacity, sight):
 		self.battery_capacity = battery_capacity
-		self.view = view
-		self.home_distance = home_distance
+		self.sight = sight
+
+
 
 
 
