@@ -1,5 +1,6 @@
 from env.pool import Pool
-
+from agent import Agent
+from policies.random import RandomPolicy
 
 def main():
 	pool = Pool(hub_location=[0, 0])
@@ -9,6 +10,8 @@ def main():
 
 	pool.set_robot_location([1, 1])
 	pool.render()
+
+	agent = Agent(policy=RandomPolicy, num_actions=6)
 
 
 if __name__ == '__main__':
