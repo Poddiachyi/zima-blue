@@ -31,7 +31,7 @@ class Pool(object):
         self.grid = np.zeros((self.length, self.width))
         self.render_elems = {-1: 'Z', -0.5: 'x', 0: ' ', 1: 'R', 2: 'H'}  # obstacle, pollution, clean square of pool, robot, home
         self.hub_location = hub_location
-        self.robot_cur_location = hub_location
+        self.robot_curr_location = hub_location
 
         
         self.generate_pollution()
@@ -86,7 +86,7 @@ class Pool(object):
             location = self._gen_random_hub_loc()
 
             self.hub_location = location
-            self.robot_cur_location = location
+            self.robot_curr_location = location
 
         self.grid[self.hub_location[0]][self.hub_location[1]] = 1
 
@@ -107,7 +107,7 @@ class Pool(object):
             print('Move is not possible')
             return
 
-        if self.are_locations_same(self.robot_cur_location, self.hub_location):
+        if self.are_locations_same(self.robot_curr_location, self.hub_location):
             self.grid[self.hub_location[0]][self.hub_location[1]] = 2 # robot left hub so it should be shown now
 
         self.grid[location[0]][location[1]] = 1
@@ -116,7 +116,7 @@ class Pool(object):
     def is_move_possible(self, location):
         if self.grid[location[0]][location[1]] == -1: # if there is an obstacle
             return False
-        elif self.distance(self.robot_cur_location, location) > 1.5: # distance between two point placed diagonally to one another is about 1.41, that's why
+        elif self.distance(self.robot_curr_location, location) > 1.5: # distance between two point placed diagonally to one another is about 1.41, that's why
             return False
         return True
 
@@ -126,3 +126,7 @@ class Pool(object):
 
     def distance(self, point1, point2):
         return euclidean(point1, point2)
+
+
+    def get_robot_location(self):
+        return self.robot_curr_location
