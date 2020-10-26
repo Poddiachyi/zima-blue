@@ -9,8 +9,8 @@ class Pool(object):
 
     Attributes
     ----------
-    length : int
-        the length of a pool
+    height : int
+        the height of a pool
     width : int
         the width of a pool
     pollution : float
@@ -23,12 +23,14 @@ class Pool(object):
     # try different amount of obstacles
     # try different amount of pollution
 
-    def __init__(self, length=5, width=7, pollution=0.3, obstacles=0.1, hub_location=None):
-        self.length = length
+    def __init__(self, width=7, height=5, pollution=0.3, obstacles=0.1, hub_location=None, seed=42):
+        np.random.seed(seed)
+
+        self.height = height
         self.width = width
         self.pollution = pollution
         self.obstacles = obstacles
-        self.grid = np.zeros((self.length, self.width))
+        self.grid = np.zeros((self.height, self.width))
         self.render_elems = {-1: 'Z', -0.5: 'x', 0: ' ', 1: 'R', 2: 'H'}  # obstacle, pollution, clean square of pool, robot, home
         self.hub_location = hub_location
         self.robot_curr_location = hub_location
@@ -50,7 +52,7 @@ class Pool(object):
             columns += 2 * w + str(i) + w
         print(columns)
         row_number = 0
-        for j in range(self.length):
+        for j in range(self.height):
             print(z * spaces, x * (self.width * 4 + 1))
             row_print = z * spaces + str(row_number) + y + w
             values = [self.render_elems[val] for val in self.grid[j]]
@@ -63,14 +65,14 @@ class Pool(object):
 
 
     def generate_pollution(self):
-        for i in range(self.length):
+        for i in range(self.height):
             for j in range(self.width):
                 if np.random.rand() < self.pollution:
                     self.grid[i][j] = -0.5
 
 
     def generate_obstacles(self):
-        for i in range(self.length):
+        for i in range(self.height):
             for j in range(self.width):
                 if np.random.rand() < self.obstacles:
                     self.grid[i][j] = -1
@@ -95,9 +97,9 @@ class Pool(object):
         col_coord = randint(0, self.width - 1)
         row_coord = None
         if col_coord == 0 or col_coord == (self.width - 1):
-            row_coord = randint(0, self.length - 1)
+            row_coord = randint(0, self.height - 1)
         else:
-            row_coord = 0 if random() > 0.5 else (self.length - 1)
+            row_coord = 0 if random() > 0.5 else (self.height - 1)
 
         return [row_coord, col_coord]
 
@@ -120,6 +122,7 @@ class Pool(object):
             return False
         return True
 
+
     def are_locations_same(self, loc1, loc2):
         return loc1[0] == loc2[0] and loc1[1] == loc2[1]
 
@@ -130,3 +133,14 @@ class Pool(object):
 
     def get_robot_location(self):
         return self.robot_curr_location
+
+
+    def get_hub_location(self):
+        return self.hub_location
+
+    def get_pool_size(self):
+        return self.width, self.height
+
+
+    def get_observable_pool(self, x1, y1, x2, y2):
+        return self.grid[y1:y2+1, x1:x2+1]
